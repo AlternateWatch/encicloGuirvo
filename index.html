@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- THE STYLE ATTRIBUTE HERE IS THE FIX FOR THE FLICKER -->
 <html lang="en" style="background-color: #020205;">
 <head>
     <meta charset="UTF-8">
@@ -7,14 +6,11 @@
     <title>GIRVO | Archive_Terminal_01</title>
     
     <style>
-        /* Smooth navigation transition */
+        /* FIX: Background on html stops flicker, transparent body allows animation to show */
         @view-transition { navigation: auto; }
-        
-        html, body, #canvas-container { 
-            background-color: #020205 !important; 
-            margin: 0; 
-            padding: 0;
-        }
+        html { background-color: #020205; }
+        body { background-color: transparent !important; margin: 0; padding: 0; }
+        #canvas-container { background-color: transparent !important; }
     </style>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,7 +24,6 @@
     <div class="grid-overlay"></div>
 
     <div class="relative z-10 min-h-screen flex flex-col">
-        
         <header class="p-6 border-b border-white/10 backdrop-blur-md">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
                 <div class="flex flex-col">
@@ -57,12 +52,10 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                
-                <!-- Search Module (Update this with IDs from your lore.json) -->
                 <div class="md:col-span-4 crystal-shard p-6 border-l-4 border-l-cyan-500 mb-8">
                     <div class="flex flex-col md:flex-row gap-4 items-center">
                         <span class="text-sm shrink-0 font-bold">QUERY_DATABASE:</span>
-                        <input type="text" id="db-search" placeholder="ENTER SUBJECT ID (e.g., nebula-glass)..." 
+                        <input type="text" id="db-search" placeholder="ENTER SUBJECT ID..." 
                                class="w-full bg-black/40 border border-white/10 px-4 py-2 focus:outline-none focus:border-cyan-400 text-cyan-400">
                         <button onclick="window.location.href='entry.html?id=' + document.getElementById('db-search').value" 
                                 class="bg-cyan-500/10 border border-cyan-500/50 px-8 py-2 hover:bg-cyan-500/30 transition text-xs">EXE_SEARCH</button>
@@ -88,8 +81,6 @@
                     <p class="text-[10px] text-slate-500 normal-case mb-4">Biological signatures of the Obsidian Guardians.</p>
                     <div class="text-[9px] text-cyan-400 opacity-0 group-hover:opacity-100 transition">ACCESS_BIOMETRICS.log</div>
                 </div>
-
-                <!-- Add more cards as needed -->
             </div>
         </main>
 

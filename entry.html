@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- THE STYLE ATTRIBUTE HERE IS THE FIX FOR THE FLICKER -->
 <html lang="en" style="background-color: #020205;">
 <head>
     <meta charset="UTF-8">
@@ -7,14 +6,10 @@
     <title>GIRVO | Entry_View</title>
     
     <style>
-        /* Smooth navigation transition */
         @view-transition { navigation: auto; }
-
-        html, body, #canvas-container { 
-            background-color: #020205 !important; 
-            margin: 0; 
-            padding: 0;
-        }
+        html { background-color: #020205; }
+        body { background-color: transparent !important; margin: 0; padding: 0; }
+        #canvas-container { background-color: transparent !important; }
     </style>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -86,20 +81,38 @@
         }
         loadEntry();
 
-        // Continuity background
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
+        
         const starsGeometry = new THREE.BufferGeometry();
         const posArray = new Float32Array(5000 * 3);
         for(let i = 0; i < 5000 * 3; i++) posArray[i] = (Math.random() - 0.5) * 15;
         starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         const starMesh = new THREE.Points(starsGeometry, new THREE.PointsMaterial({ size: 0.003, color: 0x7e22ce }));
         scene.add(starMesh);
+
+        // RESTORED OCTAHEDRON
+        const crystalGeo = new THREE.OctahedronGeometry(1.5, 0);
+        const crystalMat = new THREE.MeshPhongMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.1 });
+        const crystal = new THREE.Mesh(crystalGeo, crystalMat);
+        scene.add(crystal);
+
+        const light = new THREE.PointLight(0xa78bfa, 2);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x111111));
+
         camera.position.z = 5;
-        function animate() { requestAnimationFrame(animate); starMesh.rotation.y += 0.0003; renderer.render(scene, camera); }
+        function animate() { 
+            requestAnimationFrame(animate); 
+            starMesh.rotation.y += 0.0003; 
+            crystal.rotation.x += 0.002;
+            crystal.rotation.y += 0.002;
+            renderer.render(scene, camera); 
+        }
         animate();
     </script>
 </body>
