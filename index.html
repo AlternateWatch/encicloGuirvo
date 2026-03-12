@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- THE STYLE ATTRIBUTE HERE IS THE FIX FOR THE FLICKER -->
+<html lang="en" style="background-color: #020205;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIRVO | Archive_Terminal_01</title>
+    
+    <style>
+        /* Smooth navigation transition */
+        @view-transition { navigation: auto; }
+        
+        html, body, #canvas-container { 
+            background-color: #020205 !important; 
+            margin: 0; 
+            padding: 0;
+        }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@typopro/web-iosevka@3.7.5/index.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col">
+        
+        <header class="p-6 border-b border-white/10 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-tighter flex items-center gap-2">
+                        <div class="w-4 h-4 bg-purple-500 animate-pulse"></div>
+                        GIRVO // ARCHIVE
+                    </span>
+                    <span class="data-label">[ SYSTEM STATUS: CRYSTALLIZED ]</span>
+                </div>
+                <nav class="hidden md:flex gap-8 text-xs font-bold">
+                    <a href="#" class="hover:text-cyan-400 transition">01_CORE</a>
+                    <a href="#" class="hover:text-cyan-400 transition">02_RELICS</a>
+                    <a href="#" class="hover:text-cyan-400 transition">03_THREATS</a>
+                    <a href="#" class="hover:text-cyan-400 transition">04_GEOMETRY</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="flex-grow max-w-7xl mx-auto w-full p-8 pt-20">
+            <div class="mb-24">
+                <p class="data-label mb-2">// INIT_UNIVERSE_SCAN</p>
+                <h1 class="text-7xl md:text-9xl mb-4 italic">GIRVO</h1>
+                <p class="max-w-xl text-sm leading-relaxed text-slate-400 normal-case font-light italic">
+                    The Encyclopedia of the Fractured. A comprehensive record of the prismatic expansion, cosmic shards, and the void between the crystals. 
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                
+                <!-- Search Module (Update this with IDs from your lore.json) -->
+                <div class="md:col-span-4 crystal-shard p-6 border-l-4 border-l-cyan-500 mb-8">
+                    <div class="flex flex-col md:flex-row gap-4 items-center">
+                        <span class="text-sm shrink-0 font-bold">QUERY_DATABASE:</span>
+                        <input type="text" id="db-search" placeholder="ENTER SUBJECT ID (e.g., nebula-glass)..." 
+                               class="w-full bg-black/40 border border-white/10 px-4 py-2 focus:outline-none focus:border-cyan-400 text-cyan-400">
+                        <button onclick="window.location.href='entry.html?id=' + document.getElementById('db-search').value" 
+                                class="bg-cyan-500/10 border border-cyan-500/50 px-8 py-2 hover:bg-cyan-500/30 transition text-xs">EXE_SEARCH</button>
+                    </div>
+                </div>
+
+                <div class="crystal-shard p-6 group cursor-pointer" onclick="window.location.href='entry.html?id=nebula-glass'">
+                    <div class="flex justify-between items-start mb-10">
+                        <span class="data-label">001</span>
+                        <div class="w-8 h-1 bg-purple-500"></div>
+                    </div>
+                    <h3 class="text-lg mb-2">NEBULA_GLASS</h3>
+                    <p class="text-[10px] text-slate-500 normal-case mb-4">Atmospheric composition of the central Girvo cluster.</p>
+                    <div class="text-[9px] text-purple-400 opacity-0 group-hover:opacity-100 transition">READ_ENTRY_001.pdf</div>
+                </div>
+
+                <div class="crystal-shard p-6 group border-t-2 border-t-cyan-500 cursor-pointer" onclick="window.location.href='entry.html?id=void-knights'">
+                    <div class="flex justify-between items-start mb-10">
+                        <span class="data-label">002</span>
+                        <div class="w-8 h-1 bg-cyan-500"></div>
+                    </div>
+                    <h3 class="text-lg mb-2">VOID_KNIGHTS</h3>
+                    <p class="text-[10px] text-slate-500 normal-case mb-4">Biological signatures of the Obsidian Guardians.</p>
+                    <div class="text-[9px] text-cyan-400 opacity-0 group-hover:opacity-100 transition">ACCESS_BIOMETRICS.log</div>
+                </div>
+
+                <!-- Add more cards as needed -->
+            </div>
+        </main>
+
+        <footer class="p-8 border-t border-white/5 bg-black/50 text-[10px] text-slate-600">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>© 2024 GIRVO_CORP // DATA_REF_44912</div>
+                <div class="flex gap-6 uppercase">
+                    <span>Latency: 14ms</span>
+                    <span>Buffer: Crystalline_Active</span>
+                    <span class="text-cyan-600">Connection: Secure</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const starsGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(5000 * 3);
+        for(let i = 0; i < 5000 * 3; i++) posArray[i] = (Math.random() - 0.5) * 15;
+        starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const starMesh = new THREE.Points(starsGeometry, new THREE.PointsMaterial({ size: 0.003, color: 0x7e22ce }));
+        scene.add(starMesh);
+
+        const crystalGeo = new THREE.OctahedronGeometry(1.5, 0);
+        const crystalMat = new THREE.MeshPhongMaterial({ color: 0x00f2ff, wireframe: true, transparent: true, opacity: 0.1 });
+        const crystal = new THREE.Mesh(crystalGeo, crystalMat);
+        scene.add(crystal);
+
+        const light = new THREE.PointLight(0xa78bfa, 2);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x111111));
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            starMesh.rotation.y += 0.0003;
+            crystal.rotation.x += 0.002;
+            crystal.rotation.y += 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

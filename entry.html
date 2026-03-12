@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- THE STYLE ATTRIBUTE HERE IS THE FIX FOR THE FLICKER -->
+<html lang="en" style="background-color: #020205;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIRVO | Entry_View</title>
+    
+    <style>
+        /* Smooth navigation transition */
+        @view-transition { navigation: auto; }
+
+        html, body, #canvas-container { 
+            background-color: #020205 !important; 
+            margin: 0; 
+            padding: 0;
+        }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@typopro/web-iosevka@3.7.5/index.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col">
+        <header class="p-6 border-b border-white/10 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-tighter flex items-center gap-2">
+                        <div class="w-4 h-4 bg-purple-500 animate-pulse"></div>
+                        GIRVO // ARCHIVE
+                    </span>
+                    <span class="data-label">[ SYSTEM STATUS: CRYSTALLIZED ]</span>
+                </div>
+                <nav class="hidden md:flex gap-4 text-[10px] items-center uppercase">
+                    <a href="index.html" class="text-cyan-400 hover:text-white transition">ARCHIVE_HOME</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="flex-grow max-w-5xl mx-auto w-full p-8 pt-16">
+            <div class="flex flex-col md:flex-row gap-12">
+                <aside class="md:w-1/3 flex flex-col gap-6">
+                    <div class="crystal-shard p-6 border-t-2 border-t-cyan-500">
+                        <p class="data-label mb-4">// SUBJECT_METADATA</p>
+                        <div class="space-y-4">
+                            <div><p class="text-[9px] text-slate-500">IDENTIFIER</p><p id="meta-id" class="text-sm">---</p></div>
+                            <div><p class="text-[9px] text-slate-500">CLEARANCE_STATUS</p><p id="meta-status" class="text-sm text-cyan-400">PENDING</p></div>
+                        </div>
+                    </div>
+                </aside>
+
+                <article class="md:w-2/3">
+                    <h1 id="entry-title" class="text-5xl md:text-7xl mb-8 italic uppercase">LOADING...</h1>
+                    <div class="crystal-shard p-10 min-h-[400px]">
+                        <div id="entry-content" class="text-sm normal-case leading-relaxed text-slate-300 font-light italic">Decrypting...</div>
+                    </div>
+                </article>
+            </div>
+        </main>
+
+        <footer class="p-8 border-t border-white/5 text-[9px] text-slate-600 text-center uppercase">
+            END_OF_TRANSMISSION // GIRVO_SYSTEMS
+        </footer>
+    </div>
+
+    <script>
+        async function loadEntry() {
+            const params = new URLSearchParams(window.location.search);
+            const entryId = params.get('id');
+            try {
+                const response = await fetch('lore.json');
+                const data = await response.json();
+                const entry = data[entryId];
+                if (entry) {
+                    document.getElementById('entry-title').innerText = entry.title;
+                    document.getElementById('meta-id').innerText = entry.id;
+                    document.getElementById('meta-status').innerText = entry.status;
+                    document.getElementById('entry-content').innerHTML = entry.content;
+                }
+            } catch (e) { console.error(e); }
+        }
+        loadEntry();
+
+        // Continuity background
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        const starsGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(5000 * 3);
+        for(let i = 0; i < 5000 * 3; i++) posArray[i] = (Math.random() - 0.5) * 15;
+        starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const starMesh = new THREE.Points(starsGeometry, new THREE.PointsMaterial({ size: 0.003, color: 0x7e22ce }));
+        scene.add(starMesh);
+        camera.position.z = 5;
+        function animate() { requestAnimationFrame(animate); starMesh.rotation.y += 0.0003; renderer.render(scene, camera); }
+        animate();
+    </script>
+</body>
+</html>

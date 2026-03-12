@@ -1,0 +1,16 @@
+{
+  "nebula-glass": {
+    "title": "NEBULA_GLASS",
+    "id": "001",
+    "category": "ATMOSPHERIC_COMPOSITION",
+    "status": "STABLE",
+    "content": "Nebula Glass is a semi-corporeal substance found within the central Girvo cluster. Unlike standard matter, it exists in a state of constant refraction, bending light into solid geometry."
+  },
+  "void-knights": {
+    "title": "VOID_KNIGHTS",
+    "id": "002",
+    "category": "SENTIENT_ENTITIES",
+    "status": "CLASSIFIED",
+    "content": "The Void Knights are the silent protectors of the Obsidian Gates within the Girvo vacuum. They possess no organic bodies; instead, their consciousness is housed within armor made of reinforced dark-matter shards."
+  }
+}
