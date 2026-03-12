@@ -12,5 +12,12 @@
     "category": "SENTIENT_ENTITIES",
     "status": "CLASSIFIED",
     "content": "The Void Knights are the silent protectors of the Obsidian Gates within the Girvo vacuum. They possess no organic bodies; instead, their consciousness is housed within armor made of reinforced dark-matter shards."
+  },
+   "girvo-cluster": {
+    "title": "GIRVO_CLUSTER",
+    "id": "003",
+    "category": "ASTROPHYSICAL_STRUCTURES",
+    "status": "STABLE",
+    "content": "The Girvo Cluster is a dense collection of stars, nebulae, and cosmic phenomena located in the outer reaches of the galaxy. It is known for its unique gravitational anomalies and serves as a hub for interstellar trade and exploration."
   }
 }
